@@ -1,3 +1,7 @@
+import java.awt.Color;
+
+import javax.swing.JFrame;
+
 // BouncingFrame.java - build the Smiley frame
 // 
 // ICS 45J : Lab Assignment 3
@@ -18,6 +22,8 @@ public class BouncingFrame extends BasicFrame
 	// public inherited constants:
 	// HEIGHT: height of the screen
 	// WIDTH: width of the screen
+	public static final int WIDTH  = 500; 
+	public static final int HEIGHT = 480;
 	
 	// add needed fields here
 	
@@ -27,7 +33,12 @@ public class BouncingFrame extends BasicFrame
 	
 	public BouncingFrame(String title)
 	{
-		// complete
+		super(title);
+		
+		setSize(WIDTH, HEIGHT);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setBackground(Color.black);
 	}
 	
 	// activateAnimation: from the given bouncing group and display, construct a 
@@ -35,7 +46,6 @@ public class BouncingFrame extends BasicFrame
 	
 	public void activateAnimation(BouncingGroup bouncers, BouncingDisplay bounceDisplay)
 	{
-		// complete
 	}
 	
 }
