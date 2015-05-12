@@ -22,15 +22,15 @@ class BouncingDisplay extends BasicDisplay
 	private final static int THICKNESS = 10;
 	private final static Color BACKGROUND_COLOR = Color.BLACK;
 	
-	private static Point leftWallPt = new Point(0,10);
-	private static Point rightWallPt = new Point(490,10);
-	private static Point bottomWallPt = new Point(10,460);
-	private static Point topWallPt = new Point(0,10);
+	private static Point leftWallPt   = new Point(0, 10);
+	private static Point rightWallPt  = new Point(480, 10);
+	private static Point bottomWallPt = new Point(11, 460);
+	private static Point topWallPt    = new Point(11, 0);
 	
-	private static Dimension leftWallDim = new Dimension(THICKNESS,460);
-	private static Dimension rightWallDim = new Dimension(THICKNESS,460);
-	private static Dimension topWallDim = new Dimension(480,THICKNESS);
-	private static Dimension bottomWallDim = new Dimension(480,THICKNESS);
+	private static Dimension leftWallDim   = new Dimension(THICKNESS, 430);
+	private static Dimension rightWallDim  = new Dimension(THICKNESS, 430);
+	private static Dimension topWallDim    = new Dimension(470, THICKNESS);
+	private static Dimension bottomWallDim = new Dimension(480, THICKNESS);
 	
 	
 	private static Wall leftWall, rightWall, bottomWall, topWall;
@@ -137,7 +137,7 @@ class BouncingDisplay extends BasicDisplay
 		
 		// Draw each smiley onto its place on the screen
 		// The moving smileys are now the previous smileys...
-		
+
 		g2.setColor(leftWall.wallColor);
 		g2.fill(leftWall.wallShape);
 		g2.draw(leftWall.wallShape);
@@ -146,7 +146,6 @@ class BouncingDisplay extends BasicDisplay
 		g2.fill(rightWall.wallShape);
 		g2.draw(rightWall.wallShape);
 		
-		
 		g2.setColor(topWall.wallColor);
 		g2.fill(topWall.wallShape);
 		g2.draw(topWall.wallShape);
@@ -154,10 +153,10 @@ class BouncingDisplay extends BasicDisplay
 		g2.setColor(bottomWall.wallColor);
 		g2.fill(bottomWall.wallShape);
 		g2.draw(bottomWall.wallShape);
-		
-		drawSmiley(smiley1);
-		drawSmiley(smiley2);
-		drawSmiley(smiley3);
+	
+//		drawSmiley(smiley1);
+//		drawSmiley(smiley2);
+//		drawSmiley(smiley3);
 		
 	}
 	
@@ -180,8 +179,7 @@ class BouncingDisplay extends BasicDisplay
 		else {
 			return 0;
 		}
-	}
-		
+	}		
 		
 	public Color getWallColor(WallName wallName) {
 		if (wallName == WallName.BOTTOM) {
