@@ -155,15 +155,17 @@ public class BouncingSmileyApplet extends Applet
 	// it hits a wall; when it does, swap color of
 	// smiley and wall, and change direction
 	
-	private void moveCntSmiley(AnimatedSmiley cntSmiley)
+	private void moveCntSmiley(AnimatedSmiley cntSmiley) {
 	
 	// complete
+	}
 	
 	// Swap the colors of the wall just touched and the smiley
 	
-	private void switchColor(AnimatedSmiley cntSmiley, WallName wallTouched)
+	private void switchColor(AnimatedSmiley cntSmiley, WallName wallTouched) {
 	
 	// complete
+	}
 	
 	// Change the smiley's direction so it is away from the wall just touched.
 	
@@ -183,9 +185,10 @@ public class BouncingSmileyApplet extends Applet
 	// whichWallWasHit: return a label (LEFT, RIGHT, TOP, BOTTOM) to tell us which wall 
 	// was hit or NONE if none was hit
 	
-	private WallName whichWallWasHit(AnimatedSmiley cntSmiley)
+	private WallName whichWallWasHit(AnimatedSmiley cntSmiley) {
 	
 	// complete
+	}
 	
 	// Return true if hit left wall, false otherwise
 	
@@ -225,35 +228,39 @@ public class BouncingSmileyApplet extends Applet
 	
 	// Return wall's edge
 	
-	public int getWallEdge(WallName wallName)
+	public int getWallEdge(WallName wallName) {
 	
 	// complete
+	}
 	
 	// Return the color of the wallName wall
 	
-	public Color getWallColor(WallName wallName)
+	public Color getWallColor(WallName wallName) {
 	
 	// complete
-	
+	}
 	// Set the specified wall to the provided color
 	
-	public void setWallColor(WallName wallName, Color c)
+	public void setWallColor(WallName wallName, Color c) {
 	
 	// complete
+	}
 	
 	// drawSmiley: draw a smiley by drawing each of its parts
 	
-	private void drawSmiley(SmileyFace cntSmiley)
+	private void drawSmiley(SmileyFace cntSmiley) {
 	
 	// complete
+	}
 	
 	// drawPart: make an ellipse corresponding to the shape 
 	// of the given smiley face part; the ellipses are what 
 	// are actually drawn
 	
-	private void drawPart(SmileyFacePart part)
+	private void drawPart(SmileyFacePart part) {
 	
 	// complete
+	}
 	
 	// computeUpperLeft: determine the x- and y-coordinate of the
 	// upper-left of a SmileyFacePart.  This should be called whenever
@@ -263,6 +270,7 @@ public class BouncingSmileyApplet extends Applet
 	private void computeUpperLeft(SmileyFacePart part)	{
 	
 	// complete
+	}
 	
 }
 
