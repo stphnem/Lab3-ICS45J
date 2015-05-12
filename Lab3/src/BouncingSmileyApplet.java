@@ -2,9 +2,9 @@
 // 
 // ICS 45J : Lab Assignment 3
 // 
-// Completed by: [YOUR NAME]
-// UCInetiD:     [YOUR UCInetID]
-// ID:           [YOUR UCI ID Number]
+// Completed by: Jenny Tang and Stephen Em
+// UCInetiD:     jennyct, ems
+// ID:           45502833, 33819914
 // Modified:     [LAST MODIFICATION DATE]
 
 import java.awt.*;
