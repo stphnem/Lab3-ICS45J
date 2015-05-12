@@ -1,6 +1,5 @@
 import java.awt.Color;
 
-import javax.swing.JFrame;
 
 // BouncingFrame.java - build the Smiley frame
 // 
@@ -37,7 +36,7 @@ public class BouncingFrame extends BasicFrame
 		
 		setSize(WIDTH, HEIGHT);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.black);
 	}
 	
@@ -46,6 +45,8 @@ public class BouncingFrame extends BasicFrame
 	
 	public void activateAnimation(BouncingGroup bouncers, BouncingDisplay bounceDisplay)
 	{
+		SmileyAnimation smileyAnimation = new SmileyAnimation(bouncers, bounceDisplay);
+		setVisible(true);
 	}
 	
 }
