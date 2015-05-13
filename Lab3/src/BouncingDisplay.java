@@ -21,10 +21,11 @@ class BouncingDisplay extends BasicDisplay
 	
 	private final static int THICKNESS = 10;
 	
-	private static Point leftWallPt   = new Point(0, 10);
-	private static Point rightWallPt  = new Point(482, 11);
-	private static Point bottomWallPt = new Point(11, 461);
-	private static Point topWallPt    = new Point(11, 0);
+	private static Point leftWallPt   = new Point(0, THICKNESS);
+	private static Point rightWallPt  = new Point((int) (BouncingFrame.WIDTH-THICKNESS*1.5), 10);
+	private static Point bottomWallPt = new Point(THICKNESS, BouncingFrame.HEIGHT-THICKNESS*4);
+	private static Point topWallPt    = new Point(THICKNESS, 0);
+	
 	
 	private static Dimension leftWallDim   = new Dimension(THICKNESS, 450);
 	private static Dimension rightWallDim  = new Dimension(THICKNESS, 450);
