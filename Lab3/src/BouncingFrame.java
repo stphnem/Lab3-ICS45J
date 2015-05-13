@@ -21,8 +21,6 @@ public class BouncingFrame extends BasicFrame
 	// public inherited constants:
 	// HEIGHT: height of the screen
 	// WIDTH: width of the screen
-	public static final int WIDTH  = 500; 
-	public static final int HEIGHT = 500;
 	
 	// add needed fields here
 	
