@@ -12,7 +12,7 @@ import java.applet.*;
 import java.awt.geom.*;
 import java.util.Random;
 
-import BouncingDisplay.Wall;
+//import BouncingDisplay.Wall;
 
 // An applet that bounces a group of smileys around a wall-lined screen
 public class BouncingSmileyApplet extends Applet
@@ -37,6 +37,9 @@ public class BouncingSmileyApplet extends Applet
 	private static final long TIME_TO_RUN = 20000;
 	private static final int REVERSE_DIRECTION = -1;
 	
+	public static final int WIDTH  = 500; 
+	public static final int HEIGHT = 500;
+	public static final Color BACKGROUND_COLOR = Color.black;
 	
 	// Suggested fields:
 	//	the smiley group to be displayed
@@ -50,7 +53,7 @@ public class BouncingSmileyApplet extends Applet
 	private BouncingGroup bouncingGroup;
 	private AnimatedSmiley smiley1, smiley2, smiley3;
 	private Random generator;
-	private Graphics2D g2;
+	private Graphics2D graphicsManager;
 	private static Wall leftWall, rightWall, bottomWall, topWall;
 	private int upperLeftX;
 	private int upperLeftY;
@@ -122,7 +125,13 @@ public class BouncingSmileyApplet extends Applet
 	
 	public BouncingSmileyApplet()
 	{
-		// complete
+		leftWall = new Wall(WallName.LEFT, Color.RED);
+		rightWall = new Wall(WallName.RIGHT, Color.BLUE);
+		topWall = new Wall(WallName.TOP, Color.YELLOW);
+		bottomWall = new Wall(WallName.BOTTOM, Color.GREEN);
+		
+		bouncingGroup = new BouncingGroup();
+		generator = new Random();
 	}
 	
 	// init: when applet is invoked:
@@ -137,7 +146,15 @@ public class BouncingSmileyApplet extends Applet
 	
 	public void init()
 	{
-		// complete
+		setSize(WIDTH, HEIGHT);
+		setBackground(BACKGROUND_COLOR);
+		
+		smiley1 = bouncingGroup.getSmiley1();
+		smiley2 = bouncingGroup.getSmiley2();
+		smiley3 = bouncingGroup.getSmiley3();
+		
+		animate();
+		
 	}
 	
 	// Animate the smiley in it own thread,
@@ -164,6 +181,15 @@ public class BouncingSmileyApplet extends Applet
 
 				// For each frame, for as long as we are animating...
 					// repaint the current frame and pause
+				long startTime = System.currentTimeMillis();
+				
+				while (TIME_TO_RUN > (System.currentTimeMillis() - startTime)) {
+					moveCntSmiley(smiley1);
+					moveCntSmiley(smiley2);
+					moveCntSmiley(smiley3);
+					repaint();
+					pause(100);
+				}
 			}
 		}
 		Thread t = new Thread(new AnimationRunnable());
@@ -192,6 +218,30 @@ public class BouncingSmileyApplet extends Applet
 		// Draw the walls
 		// Move each smiley one "frame" of animation
 		// Draw each smiley onto its place on the screen
+		super.paint(g);
+		Graphics2D g2 = (Graphics2D) g;
+		
+		graphicsManager = g2;
+
+		g2.setColor(leftWall.wallColor);
+		g2.fill(leftWall.wallShape);
+		g2.draw(leftWall.wallShape);
+		
+		g2.setColor(rightWall.wallColor);
+		g2.fill(rightWall.wallShape);
+		g2.draw(rightWall.wallShape);
+		
+		g2.setColor(topWall.wallColor);
+		g2.fill(topWall.wallShape);
+		g2.draw(topWall.wallShape);
+		
+		g2.setColor(bottomWall.wallColor);
+		g2.fill(bottomWall.wallShape);
+		g2.draw(bottomWall.wallShape);
+	
+		drawSmiley(smiley1);
+		drawSmiley(smiley2);
+		drawSmiley(smiley3);
 	}
 	
 	// The methods described below are private, and so
