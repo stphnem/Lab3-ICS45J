@@ -34,7 +34,7 @@ public class BouncingSmileyApplet extends Applet
 	private static Dimension bottomWallDim = new Dimension(470, THICKNESS);
 	
 	
-	private static final long TIME_TO_RUN = 20000;
+	private static final long TIME_TO_RUN = 30000;
 	private static final int REVERSE_DIRECTION = -1;
 	
 	public static final int WIDTH  = 500; 
@@ -254,15 +254,20 @@ public class BouncingSmileyApplet extends Applet
 	// smiley and wall, and change direction
 	
 	private void moveCntSmiley(AnimatedSmiley cntSmiley) {
-	
-	// complete
+		cntSmiley.moveIt();
+		if (hitLeftWall(cntSmiley) || hitRightWall(cntSmiley) || hitTopWall(cntSmiley) || hitBottomWall(cntSmiley)) {
+			WallName hitWall =  whichWallWasHit(cntSmiley);
+			adjustDirection(cntSmiley, hitWall);
+			switchColor(cntSmiley, hitWall);
+		}
 	}
 	
 	// Swap the colors of the wall just touched and the smiley
 	
 	private void switchColor(AnimatedSmiley cntSmiley, WallName wallTouched) {
-	
-	// complete
+		Color wallColor = getWallColor(wallTouched);
+		setWallColor(wallTouched, cntSmiley.getFace().getColor());
+		cntSmiley.getFace().setColor(wallColor);
 	}
 	
 	// Change the smiley's direction so it is away from the wall just touched.
@@ -278,6 +283,27 @@ public class BouncingSmileyApplet extends Applet
 		// y direction can be up, down, or no movement; it is 
 		// randomly chosen
 		
+		if ((wallTouched == WallName.TOP) || (wallTouched == WallName.BOTTOM)) {
+			cntSmiley.setCurrentYMovement(cntSmiley.getCurrentYMovement()*REVERSE_DIRECTION);
+			switch(generator.nextInt(3))
+			{
+			case 0: cntSmiley.setCurrentXMovement(cntSmiley.getCurrentYMovement()); break;
+			case 1: cntSmiley.setCurrentXMovement(cntSmiley.getCurrentYMovement()*REVERSE_DIRECTION); break;
+			case 2: break;
+			default: break;
+			}
+		}
+		if ((wallTouched == WallName.RIGHT) || (wallTouched == WallName.LEFT)) {
+			cntSmiley.setCurrentXMovement(cntSmiley.getCurrentXMovement()*REVERSE_DIRECTION);
+			switch(generator.nextInt(3))
+			{
+			case 0: cntSmiley.setCurrentYMovement(cntSmiley.getCurrentXMovement()); break;
+			case 1: cntSmiley.setCurrentYMovement(cntSmiley.getCurrentXMovement()*REVERSE_DIRECTION); break;
+			case 2: break;
+			default: break;
+			}
+		}
+		
 	}
 	
 	// whichWallWasHit: return a label (LEFT, RIGHT, TOP, BOTTOM) to tell us which wall 
@@ -285,7 +311,21 @@ public class BouncingSmileyApplet extends Applet
 	
 	private WallName whichWallWasHit(AnimatedSmiley cntSmiley) {
 	
-	// complete
+		if (hitLeftWall(cntSmiley)) {
+			return WallName.LEFT;
+		}
+		else if (hitRightWall(cntSmiley)) {
+			return WallName.RIGHT;
+		}
+		else if (hitTopWall(cntSmiley)) {
+			return WallName.TOP;
+		}
+		else if (hitBottomWall(cntSmiley)) {
+			return WallName.BOTTOM;
+		}
+		else {
+			return WallName.NONE;
+		}
 	}
 	
 	// Return true if hit left wall, false otherwise
@@ -295,6 +335,7 @@ public class BouncingSmileyApplet extends Applet
 		// Wall was hit if x coordinate of leftmost point of smiley is
 		// same or less than edge of the left wall and is (still)
 		// heading into the wall
+		return ((cntSmiley.getLeftEdge() <= getWallEdge(WallName.LEFT)) && (cntSmiley.getCurrentXMovement()<0));
 	}
 	
 	// Return true if hit right wall, false otherwise
@@ -304,6 +345,7 @@ public class BouncingSmileyApplet extends Applet
 		// Wall was hit if x coordinate of rightmost point of smiley is
 		// same or greater than edge of the right wall and is (still)
 		// heading into the wall
+		return ((cntSmiley.getRightEdge() >= getWallEdge(WallName.RIGHT)) && (cntSmiley.getCurrentXMovement()>0));
 	}
 	
 	// Return true if hit top wall, false otherwise
@@ -313,6 +355,7 @@ public class BouncingSmileyApplet extends Applet
 		// Wall was hit if y coordinate of top-most point of smiley is
 		// same or less than edge of the top wall and is (still)
 		// heading into the wall
+		return ((cntSmiley.getTopEdge() <= getWallEdge(WallName.TOP)) && (cntSmiley.getCurrentYMovement()<0));
 	}
 	
 	// Return true if hit bottom wall, false otherwise
@@ -322,26 +365,66 @@ public class BouncingSmileyApplet extends Applet
 		// Wall was hit if y coordinate of bottom-most point of smiley is
 		// same or greater than edge of the bottom wall and is (still)
 		// heading into the wall
+		return ((cntSmiley.getBottomEdge() >= getWallEdge(WallName.BOTTOM)) && (cntSmiley.getCurrentYMovement()>0));
 	}
 	
 	// Return wall's edge
 	
 	public int getWallEdge(WallName wallName) {
 	
-	// complete
+		if (wallName == WallName.BOTTOM) {
+			return bottomWall.wallEdge;
+		}
+		else if (wallName == WallName.TOP) {
+			return topWall.wallEdge;
+		}
+		else if (wallName == WallName.LEFT) {
+			return leftWall.wallEdge;
+		}
+		else if (wallName == WallName.RIGHT) {
+			return rightWall.wallEdge;
+		}
+		else {
+			return 0;
+		}
 	}
 	
 	// Return the color of the wallName wall
 	
 	public Color getWallColor(WallName wallName) {
 	
-	// complete
+		if (wallName == WallName.BOTTOM) {
+			return bottomWall.wallColor;
+		}
+		else if (wallName == WallName.TOP) {
+			return topWall.wallColor;
+		}
+		else if (wallName == WallName.LEFT) {
+			return leftWall.wallColor;
+		}
+		else if (wallName == WallName.RIGHT) {
+			return rightWall.wallColor;
+		}
+		else {
+			return Color.GRAY;
+		}
 	}
 	// Set the specified wall to the provided color
 	
 	public void setWallColor(WallName wallName, Color c) {
 	
-	// complete
+		if (wallName == WallName.BOTTOM) {
+			bottomWall.wallColor = c;
+		}
+		else if (wallName == WallName.TOP) {
+			topWall.wallColor = c;
+		}
+		else if (wallName == WallName.LEFT) {
+			leftWall.wallColor = c;
+		}
+		else if (wallName == WallName.RIGHT) {
+			rightWall.wallColor = c;
+		}
 	}
 	
 	// drawSmiley: draw a smiley by drawing each of its parts
@@ -377,6 +460,5 @@ public class BouncingSmileyApplet extends Applet
 		upperLeftX = part.getCenterX() - (int) (part.getXLength()/2);
 		upperLeftY = part.getCenterY() - (int) (part.getYLength()/2);
 	}
-	
 }
 
