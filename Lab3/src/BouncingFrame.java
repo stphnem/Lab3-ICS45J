@@ -47,6 +47,8 @@ public class BouncingFrame extends BasicFrame
 	{
 		SmileyAnimation smileyAnimation = new SmileyAnimation(bouncers, bounceDisplay);
 		setVisible(true);
+		smileyAnimation.animate();
+		
 	}
 	
 }
