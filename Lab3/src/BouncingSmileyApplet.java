@@ -23,23 +23,25 @@ public class BouncingSmileyApplet extends Applet
 	// animation should run (in milliseconds) and perhaps others
 	private final static int THICKNESS = 10;
 	
-	private static Point leftWallPt   = new Point(0, 10);
-	private static Point rightWallPt  = new Point(482, 11);
-	private static Point bottomWallPt = new Point(11, 461);
-	private static Point topWallPt    = new Point(11, 0);
+	public static final int WIDTH  = 500; 
+	public static final int HEIGHT = 500;
+	public static final Color BACKGROUND_COLOR = Color.black;
 	
-	private static Dimension leftWallDim   = new Dimension(THICKNESS, 450);
-	private static Dimension rightWallDim  = new Dimension(THICKNESS, 450);
-	private static Dimension topWallDim    = new Dimension(470, THICKNESS);
-	private static Dimension bottomWallDim = new Dimension(470, THICKNESS);
+	private static Point leftWallPt   = new Point(0, THICKNESS);
+	private static Point rightWallPt  = new Point((int) (WIDTH-THICKNESS*1.5), 10);
+	private static Point bottomWallPt = new Point(THICKNESS, HEIGHT-THICKNESS*4);
+	private static Point topWallPt    = new Point(THICKNESS, 0);
+	
+	private static Dimension leftWallDim   = new Dimension(THICKNESS, HEIGHT-THICKNESS*5);
+	private static Dimension rightWallDim  = new Dimension(THICKNESS, HEIGHT-THICKNESS*5);
+	private static Dimension topWallDim    = new Dimension(WIDTH-THICKNESS*3, THICKNESS);
+	private static Dimension bottomWallDim = new Dimension(WIDTH-THICKNESS*3, THICKNESS);
 	
 	
 	private static final long TIME_TO_RUN = 30000;
 	private static final int REVERSE_DIRECTION = -1;
 	
-	public static final int WIDTH  = 500; 
-	public static final int HEIGHT = 500;
-	public static final Color BACKGROUND_COLOR = Color.black;
+
 	
 	// Suggested fields:
 	//	the smiley group to be displayed
