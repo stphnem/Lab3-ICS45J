@@ -20,7 +20,6 @@ class BouncingDisplay extends BasicDisplay
 	// of the frame, the thickness of the walls, and perhaps others
 	
 	private final static int THICKNESS = 10;
-	private final static Color BACKGROUND_COLOR = Color.BLACK;
 	
 	private static Point leftWallPt   = new Point(0, 10);
 	private static Point rightWallPt  = new Point(482, 11);
@@ -45,7 +44,7 @@ class BouncingDisplay extends BasicDisplay
 	private AnimatedSmiley smiley2;
 	private AnimatedSmiley smiley3;
 	
-	private Graphics2D g2;
+	private Graphics2D graphicsManager;
 	
 	private int upperLeftX;
 	private int upperLeftY;
@@ -62,7 +61,6 @@ class BouncingDisplay extends BasicDisplay
 		
 		private Rectangle wallShape;
 		private Color wallColor;
-		private String wallName;
 		private int wallEdge;
 		
 		
@@ -135,6 +133,8 @@ class BouncingDisplay extends BasicDisplay
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		
+		graphicsManager = g2;
+		
 		// Draw each smiley onto its place on the screen
 		// The moving smileys are now the previous smileys...
 
@@ -154,9 +154,9 @@ class BouncingDisplay extends BasicDisplay
 		g2.fill(bottomWall.wallShape);
 		g2.draw(bottomWall.wallShape);
 	
-//		drawSmiley(smiley1);
-//		drawSmiley(smiley2);
-//		drawSmiley(smiley3);
+		drawSmiley(smiley1);
+		drawSmiley(smiley2);
+		drawSmiley(smiley3);
 		
 	}
 	
@@ -248,9 +248,9 @@ class BouncingDisplay extends BasicDisplay
 	
 		computeUpperLeft(part);
 		Ellipse2D.Double shape = new Ellipse2D.Double(upperLeftX, upperLeftY, part.getXLength(), part.getYLength());
-		g2.setColor(part.getColor());
-		g2.fill(shape);
-		g2.draw(shape);
+		graphicsManager.setColor(part.getColor());
+		graphicsManager.fill(shape);
+		graphicsManager.draw(shape);
 	}
 }
 
