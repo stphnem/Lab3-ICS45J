@@ -37,7 +37,7 @@ public class BouncingFrame extends BasicFrame
 		setSize(WIDTH, HEIGHT);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		getContentPane().setBackground(Color.black);
+		setBackground(Color.black);
 	}
 	
 	// activateAnimation: from the given bouncing group and display, construct a 
