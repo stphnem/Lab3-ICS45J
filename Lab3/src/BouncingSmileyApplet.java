@@ -348,7 +348,10 @@ public class BouncingSmileyApplet extends Applet
 	
 	private void drawSmiley(SmileyFace cntSmiley) {
 	
-	// complete
+		drawPart(cntSmiley.getFace());
+		drawPart(cntSmiley.getLeftEye());
+		drawPart(cntSmiley.getRightEye());
+		drawPart(cntSmiley.getSmile());
 	}
 	
 	// drawPart: make an ellipse corresponding to the shape 
@@ -357,7 +360,11 @@ public class BouncingSmileyApplet extends Applet
 	
 	private void drawPart(SmileyFacePart part) {
 	
-	// complete
+		computeUpperLeft(part);
+		Ellipse2D.Double shape = new Ellipse2D.Double(upperLeftX, upperLeftY, part.getXLength(), part.getYLength());
+		graphicsManager.setColor(part.getColor());
+		graphicsManager.fill(shape);
+		graphicsManager.draw(shape);
 	}
 	
 	// computeUpperLeft: determine the x- and y-coordinate of the
@@ -367,7 +374,8 @@ public class BouncingSmileyApplet extends Applet
 	
 	private void computeUpperLeft(SmileyFacePart part)	{
 	
-	// complete
+		upperLeftX = part.getCenterX() - (int) (part.getXLength()/2);
+		upperLeftY = part.getCenterY() - (int) (part.getYLength()/2);
 	}
 	
 }
