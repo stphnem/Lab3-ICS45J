@@ -12,6 +12,8 @@ import java.applet.*;
 import java.awt.geom.*;
 import java.util.Random;
 
+import BouncingDisplay.Wall;
+
 // An applet that bounces a group of smileys around a wall-lined screen
 public class BouncingSmileyApplet extends Applet
 {
@@ -19,6 +21,22 @@ public class BouncingSmileyApplet extends Applet
 	// Constants go here. You'll likely want them for the four
 	// edges of the display, the thickness of the walls, the time the
 	// animation should run (in milliseconds) and perhaps others
+	private final static int THICKNESS = 10;
+	
+	private static Point leftWallPt   = new Point(0, 10);
+	private static Point rightWallPt  = new Point(482, 11);
+	private static Point bottomWallPt = new Point(11, 461);
+	private static Point topWallPt    = new Point(11, 0);
+	
+	private static Dimension leftWallDim   = new Dimension(THICKNESS, 450);
+	private static Dimension rightWallDim  = new Dimension(THICKNESS, 450);
+	private static Dimension topWallDim    = new Dimension(470, THICKNESS);
+	private static Dimension bottomWallDim = new Dimension(470, THICKNESS);
+	
+	
+	private static final long TIME_TO_RUN = 20000;
+	private static final int REVERSE_DIRECTION = -1;
+	
 	
 	// Suggested fields:
 	//	the smiley group to be displayed
@@ -29,6 +47,15 @@ public class BouncingSmileyApplet extends Applet
 	//  the x and y coordinates of the upper left corner 
 	//  of the current face part	
 	
+	private BouncingGroup bouncingGroup;
+	private AnimatedSmiley smiley1, smiley2, smiley3;
+	private Random generator;
+	private Graphics2D g2;
+	private static Wall leftWall, rightWall, bottomWall, topWall;
+	private int upperLeftX;
+	private int upperLeftY;
+	
+	
 	// A wall of the display (off which the smiley bounces). The outer
 	// class will make four objects of this class, one for each wall.
 	// Not required (since private); still, strongly recommended!
@@ -38,6 +65,10 @@ public class BouncingSmileyApplet extends Applet
 		
 		// A wall consists of a rectangle, color, name, and edge --
 		// the position of the edge of the wall that the smiley touches.
+		
+		private Rectangle wallShape;
+		private Color wallColor;
+		private int wallEdge;
 		
 		// Build a wall, given its name and color -- we can figure 
 		// out the wall's shape from the provided name and the geometry 
@@ -52,12 +83,29 @@ public class BouncingSmileyApplet extends Applet
 			// color the same as c; which wall we're making
 			// is indicated by position (WallName.LEFT, 
 			// WallName.RIGHT, WallName.TOP, WallName.BOTTOM)
+			wallColor = c;
 			
 			// figure out upper left, upper right, xLength and 
 			// yLength for each rectangle representing a wall, 
 			// and the edge the smiley will hit when it touches 
 			// a wall, using information about the display screen 
 			// and frame, and the wall's thickness
+			if (position == WallName.RIGHT) {
+				wallShape = new Rectangle(rightWallPt, rightWallDim);
+				wallEdge = (int) (rightWallPt.getX());
+			}
+			else if (position == WallName.LEFT) {
+				wallShape = new Rectangle(leftWallPt, leftWallDim);
+				wallEdge = (int) (leftWallPt.getX() + leftWallDim.getWidth());
+			}
+			else if (position == WallName.BOTTOM) {
+				wallShape = new Rectangle(bottomWallPt, bottomWallDim);
+				wallEdge = (int) (bottomWallPt.getY());
+			}
+			else if (position == WallName.TOP) {
+				wallShape = new Rectangle(topWallPt, topWallDim);
+				wallEdge = (int) (topWallPt.getY() + topWallDim.getHeight());
+			}
 			
 			// Use that info to make a new rectangle that represents the wall
 			
