@@ -5,22 +5,21 @@
 // Completed by: Jenny Tang and Stephen Em
 // UCInetiD:     jennyct, ems
 // ID:           45502833, 33819914
-// Modified:     [LAST MODIFICATION DATE]
-
+// Modified:     05/14/1025
 import java.awt.*;
 import java.applet.*;
 import java.awt.geom.*;
 import java.util.Random;
 
-//import BouncingDisplay.Wall;
 
-// An applet that bounces a group of smileys around a wall-lined screen
+/*
+ * BouncingSmileyApplet Class
+ * A class that extends applet.
+ * Displays smileys that bounce around a screen lined with walls
+ * Smileys change colors and directions upon impact with a wall
+ */
 public class BouncingSmileyApplet extends Applet
 {
-	
-	// Constants go here. You'll likely want them for the four
-	// edges of the display, the thickness of the walls, the time the
-	// animation should run (in milliseconds) and perhaps others
 	private final static int THICKNESS = 10;
 	
 	public static final int WIDTH  = 500; 
@@ -37,20 +36,8 @@ public class BouncingSmileyApplet extends Applet
 	private static Dimension topWallDim    = new Dimension(WIDTH-THICKNESS*3, THICKNESS);
 	private static Dimension bottomWallDim = new Dimension(WIDTH-THICKNESS*3, THICKNESS);
 	
-	
 	private static final long TIME_TO_RUN = 30000;
 	private static final int REVERSE_DIRECTION = -1;
-	
-
-	
-	// Suggested fields:
-	//	the smiley group to be displayed
-	//  the three animated smileys
-	//	random number generator (used in the animation)
-	//  the graphics environment
-	//	the four walls of the display
-	//  the x and y coordinates of the upper left corner 
-	//  of the current face part	
 	
 	private BouncingGroup bouncingGroup;
 	private AnimatedSmiley smiley1, smiley2, smiley3;
@@ -60,41 +47,28 @@ public class BouncingSmileyApplet extends Applet
 	private int upperLeftX;
 	private int upperLeftY;
 	
-	
-	// A wall of the display (off which the smiley bounces). The outer
-	// class will make four objects of this class, one for each wall.
-	// Not required (since private); still, strongly recommended!
-	
+	/*
+	 * Wall: private static class
+	 * Walls in the display that smileys bounce off of.
+	 */
 	private static class Wall
 	{
-		
-		// A wall consists of a rectangle, color, name, and edge --
-		// the position of the edge of the wall that the smiley touches.
-		
 		private Rectangle wallShape;
 		private Color wallColor;
 		private int wallEdge;
-		
-		// Build a wall, given its name and color -- we can figure 
-		// out the wall's shape from the provided name and the geometry 
-		// of the screen--and provide that info to Rectangle() 
-		// to build the wall
-		
+
+		/*
+		 * Class constructor.
+		 * Given the name and color, you can figure out the wall's
+		 * shape from the name. We use Rectangle() to construct the wall
+		 * 
+		 * @param position a wall name that lets us know the wall's position
+		 * @param c        the color of the wall
+		 */
 		public Wall(WallName position, Color c)
 		{
-			
-			// walls have a left position, top position, 
-			// length in x dimension, length in y dimension,
-			// color the same as c; which wall we're making
-			// is indicated by position (WallName.LEFT, 
-			// WallName.RIGHT, WallName.TOP, WallName.BOTTOM)
 			wallColor = c;
 			
-			// figure out upper left, upper right, xLength and 
-			// yLength for each rectangle representing a wall, 
-			// and the edge the smiley will hit when it touches 
-			// a wall, using information about the display screen 
-			// and frame, and the wall's thickness
 			if (position == WallName.RIGHT) {
 				wallShape = new Rectangle(rightWallPt, rightWallDim);
 				wallEdge = (int) (rightWallPt.getX());
@@ -111,20 +85,15 @@ public class BouncingSmileyApplet extends Applet
 				wallShape = new Rectangle(topWallPt, topWallDim);
 				wallEdge = (int) (topWallPt.getY() + topWallDim.getHeight());
 			}
-			
-			// Use that info to make a new rectangle that represents the wall
-			
 		}
 	}
 	
-	// Inherited method:
-	// 	public void repaint() - forces Java to redraw this display
-	
-	// The parts of the applet that need construction:
-	//   build the four walls
-	//   make the smiley group to be animated
-	//   make a random number generator (used in animation)
-	
+	/*
+	 * BouncingSmileyApplet constructor
+	 * This constructs the four walls, the smiley group to be
+	 * animated and also has a random number generator for the
+	 * random direction the smileys will go upon hitting a wall
+	 */
 	public BouncingSmileyApplet()
 	{
 		leftWall = new Wall(WallName.LEFT, Color.RED);
@@ -135,16 +104,6 @@ public class BouncingSmileyApplet extends Applet
 		bouncingGroup = new BouncingGroup();
 		generator = new Random();
 	}
-	
-	// init: when applet is invoked:
-	//  resize the screen to match the boundaries 
-	//    given above 
-	//	set the background color to the 
-	//    BACKGROUND_COLOR 
-	//	break the smileys from the 
-	//	  group and store separately, since they 
-	//	  are animated separately
-	//  begin the animation
 	
 	public void init()
 	{
@@ -159,30 +118,16 @@ public class BouncingSmileyApplet extends Applet
 		
 	}
 	
-	// Animate the smiley in it own thread,
-	// so that it is separate from the rest
-	// of the programs; operations: in particular,
-	// when we repaint() to draw the next frame of
-	// the animation, when this thread suspends,
-	// the other implied program thread will
-	// repaint the screen. (If a separate thread
-	// is not used, repaint() is only acted upon
-	// once the animation is complete!)
-	// All details to actually animate are in the
-	// paint() method; this just loops through
-	// repainting and pausing as paint() generates
-	// and displays each frame of the animation
-	
+	/*
+	 * Animates the smileys in their own threads so that
+	 * they're animated seperately from one another
+	 */
 	public void animate()
 	{
 		class AnimationRunnable implements Runnable
 		{
 			public void run()
 			{
-				// Set the current time
-
-				// For each frame, for as long as we are animating...
-					// repaint the current frame and pause
 				long startTime = System.currentTimeMillis();
 				
 				while (TIME_TO_RUN > (System.currentTimeMillis() - startTime)) {
@@ -190,7 +135,7 @@ public class BouncingSmileyApplet extends Applet
 					moveCntSmiley(smiley2);
 					moveCntSmiley(smiley3);
 					repaint();
-					pause(100);
+					pause(10);
 				}
 			}
 		}
@@ -198,9 +143,6 @@ public class BouncingSmileyApplet extends Applet
 		t.start();
 	}
 	
-	// pause(): pause the animation for the given 
-	// number of milliseconds
-	// DO NOT MODIFY
 	private void pause(int millisecs)
 	{
 		try
@@ -212,14 +154,8 @@ public class BouncingSmileyApplet extends Applet
 		}
 	}
 	
-	// paint: draw a frame of the animation
 	public void paint(Graphics g)
 	{
-		// Call parent
-		// Make a graphics2D reference
-		// Draw the walls
-		// Move each smiley one "frame" of animation
-		// Draw each smiley onto its place on the screen
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D) g;
 		
@@ -246,15 +182,12 @@ public class BouncingSmileyApplet extends Applet
 		drawSmiley(smiley3);
 	}
 	
-	// The methods described below are private, and so
-	// only suggested; however, the functionality they 
-	// provide will almost certainly be needed, regardless of 
-	// whether you choose to implement them.
-	
-	// moveCntSmiley: Continue to move smiley until 
-	// it hits a wall; when it does, swap color of
-	// smiley and wall, and change direction
-	
+	/*
+	 * Continues to move the AnimatedSmiley until it hits a wall
+	 * If it hits a wall, swap colors and change direction
+	 * 
+	 * @param cntSmiley the AnimatedSmiley to keep moving
+	 */
 	private void moveCntSmiley(AnimatedSmiley cntSmiley) {
 		cntSmiley.moveIt();
 		if (hitLeftWall(cntSmiley) || hitRightWall(cntSmiley) || hitTopWall(cntSmiley) || hitBottomWall(cntSmiley)) {
@@ -264,27 +197,32 @@ public class BouncingSmileyApplet extends Applet
 		}
 	}
 	
-	// Swap the colors of the wall just touched and the smiley
-	
+	/*
+	 * Swaps the colors of the given AnimatedSmiley and the given wall
+	 * 
+	 * @param cntSmiley   the AnimatedSmiley to swap color
+	 * @param wallTouched the wall the swap color
+	 */
 	private void switchColor(AnimatedSmiley cntSmiley, WallName wallTouched) {
 		Color wallColor = getWallColor(wallTouched);
 		setWallColor(wallTouched, cntSmiley.getFace().getColor());
 		cntSmiley.getFace().setColor(wallColor);
 	}
 	
-	// Change the smiley's direction so it is away from the wall just touched.
-	
+	/*
+	 * Returns void but adjusts the smiley's direction so it "bounces" away from
+	 * the wall that it just touched
+	 * If the smiley touches the top or bottom wall, its y direction is reversed
+	 * and its x direction is randomly chosen to go left, right or NONE
+	 * If the smiley touches the left or right wall, its x direction is reversed
+	 * and its y direction is randomly chosen to go left, right or NONE
+	 * NONE will result in it going stright back where it came from
+	 * 
+	 * @param cntSmiley an AnimatedSmiley to adjust
+	 * @param wallTouched the wall to bounce off off
+	 */
 	private void adjustDirection(AnimatedSmiley cntSmiley, WallName wallTouched)
-	{
-			
-		// If hit top or bottom wall, y direction is reversed,
-		// x direction can be to the left, to the right, or
-		// no movement at all; it is randomly chosen
-		
-		// If hit left or right wall, x direction is reversed,
-		// y direction can be up, down, or no movement; it is 
-		// randomly chosen
-		
+	{		
 		if ((wallTouched == WallName.TOP) || (wallTouched == WallName.BOTTOM)) {
 			cntSmiley.setCurrentYMovement(cntSmiley.getCurrentYMovement()*REVERSE_DIRECTION);
 			switch(generator.nextInt(3))
@@ -304,13 +242,17 @@ public class BouncingSmileyApplet extends Applet
 			case 2: break;
 			default: break;
 			}
-		}
-		
+		}	
 	}
 	
-	// whichWallWasHit: return a label (LEFT, RIGHT, TOP, BOTTOM) to tell us which wall 
-	// was hit or NONE if none was hit
-	
+	/*
+	 * Returns the wall name that was hit by the smiley provided
+	 * the walls consist of LEFT, RIGHT, TOP, or BOTTOM and if none
+	 * are hit then returns NONE
+	 * 
+	 * @param cntSmiley the AnimatedSmiley to check which wall was hit
+	 * @return			the wall that was hit or NONE
+	 */
 	private WallName whichWallWasHit(AnimatedSmiley cntSmiley) {
 	
 		if (hitLeftWall(cntSmiley)) {
@@ -330,48 +272,70 @@ public class BouncingSmileyApplet extends Applet
 		}
 	}
 	
-	// Return true if hit left wall, false otherwise
-	
+	/*
+	 * Returns a boolean if the left wall was hit
+	 * The left wall is hit if the x coordinate of the left-most
+	 * point of the smiley is the same or greater than the edge of the
+	 * left wall and also if the smiley is heading into the wall
+	 * 
+	 * @param cntSmiley the AnimatedSmiley to check if it hit the wall
+	 * @return          whether or not the left wall was hit
+	 */
 	private boolean hitLeftWall(AnimatedSmiley cntSmiley)
 	{
-		// Wall was hit if x coordinate of leftmost point of smiley is
-		// same or less than edge of the left wall and is (still)
-		// heading into the wall
 		return ((cntSmiley.getLeftEdge() <= getWallEdge(WallName.LEFT)) && (cntSmiley.getCurrentXMovement()<0));
 	}
 	
-	// Return true if hit right wall, false otherwise
-	
+	/*
+	 * Returns a boolean if the right wall was hit
+	 * The right wall is hit if the x coordinate of the right-most
+	 * point of the smiley is the same or greater than the edge of the
+	 * right wall and also if the smiley is heading into the wall
+	 * 
+	 * @param cntSmiley the AnimatedSmiley to check if it hit the wall
+	 * @return          whether or not the right wall was hit
+	 */
 	private boolean hitRightWall(AnimatedSmiley cntSmiley)
 	{		
-		// Wall was hit if x coordinate of rightmost point of smiley is
-		// same or greater than edge of the right wall and is (still)
-		// heading into the wall
 		return ((cntSmiley.getRightEdge() >= getWallEdge(WallName.RIGHT)) && (cntSmiley.getCurrentXMovement()>0));
 	}
 	
-	// Return true if hit top wall, false otherwise
-	
+	/*
+	 * Returns a boolean if the top wall was hit
+	 * The top wall is hit if the y coordinate of the top-most
+	 * point of the smiley is the same or greater than the edge of the
+	 * top wall and also if the smiley is heading into the wall
+	 * 
+	 * @param cntSmiley the AnimatedSmiley to check if it hit the wall
+	 * @return          whether or not the top wall was hit
+	 */
 	private boolean hitTopWall(AnimatedSmiley cntSmiley)
 	{
-		// Wall was hit if y coordinate of top-most point of smiley is
-		// same or less than edge of the top wall and is (still)
-		// heading into the wall
 		return ((cntSmiley.getTopEdge() <= getWallEdge(WallName.TOP)) && (cntSmiley.getCurrentYMovement()<0));
 	}
 	
-	// Return true if hit bottom wall, false otherwise
-	
+	/*
+	 * Returns a boolean if the bottom wall was hit
+	 * The bottom wall is hit if the y coordinate of the bottom-most
+	 * point of the smiley is the same or greater than the edge of the
+	 * bottom wall and also if the smiley is heading into the wall
+	 * 
+	 * @param cntSmiley the AnimatedSmiley to check if it hit the wall
+	 * @return          whether or not the bottom wall was hit
+	 */
 	private boolean hitBottomWall(AnimatedSmiley cntSmiley)
 	{
-		// Wall was hit if y coordinate of bottom-most point of smiley is
-		// same or greater than edge of the bottom wall and is (still)
-		// heading into the wall
 		return ((cntSmiley.getBottomEdge() >= getWallEdge(WallName.BOTTOM)) && (cntSmiley.getCurrentYMovement()>0));
 	}
 	
-	// Return wall's edge
-	
+
+	/*
+	 * Returns an int that resembles the wall's edge
+	 * of the wall provided
+	 * 
+	 * @param wallName the name of the wall to get its edge
+	 * @return         the coordinate of the wall's edge
+	 */
 	public int getWallEdge(WallName wallName) {
 	
 		if (wallName == WallName.BOTTOM) {
@@ -391,8 +355,13 @@ public class BouncingSmileyApplet extends Applet
 		}
 	}
 	
-	// Return the color of the wallName wall
-	
+
+	/*
+	 * Returns the color of the wall provided
+	 * 
+	 * @param wallName the name of the wall to get its color
+	 * @return         the color of the wall provided
+	 */
 	public Color getWallColor(WallName wallName) {
 	
 		if (wallName == WallName.BOTTOM) {
@@ -411,8 +380,14 @@ public class BouncingSmileyApplet extends Applet
 			return Color.GRAY;
 		}
 	}
-	// Set the specified wall to the provided color
-	
+
+	/*
+	 * Returns void but ultimately sets the wall provided
+	 * to the color provided
+	 * 
+	 * @param wallName the name of the wall to set
+	 * @param          the color to set the wall
+	 */
 	public void setWallColor(WallName wallName, Color c) {
 	
 		if (wallName == WallName.BOTTOM) {
@@ -429,8 +404,12 @@ public class BouncingSmileyApplet extends Applet
 		}
 	}
 	
-	// drawSmiley: draw a smiley by drawing each of its parts
-	
+	/*
+	 * Returns void but draws all the SmileyFaceParts from the 
+	 * provided SmileyFace
+	 * 
+	 * @param cntSmiley a SmileyFace to draw all its parts
+	 */
 	private void drawSmiley(SmileyFace cntSmiley) {
 	
 		drawPart(cntSmiley.getFace());
@@ -439,10 +418,12 @@ public class BouncingSmileyApplet extends Applet
 		drawPart(cntSmiley.getSmile());
 	}
 	
-	// drawPart: make an ellipse corresponding to the shape 
-	// of the given smiley face part; the ellipses are what 
-	// are actually drawn
-	
+	/*
+	 * Returns void but draws the part provided
+	 * 
+	 * @param part a SmileyFacePart which can be a leftEye,
+	 * rightEye, Face, or Smile
+	 */
 	private void drawPart(SmileyFacePart part) {
 	
 		computeUpperLeft(part);
@@ -452,11 +433,12 @@ public class BouncingSmileyApplet extends Applet
 		graphicsManager.draw(shape);
 	}
 	
-	// computeUpperLeft: determine the x- and y-coordinate of the
-	// upper-left of a SmileyFacePart.  This should be called whenever
-	// an attributes change would cause the upper-left position to
-	// change.
-	
+	/*
+	 * Returns void but gets the upperleft x and y coordinates of
+	 * the part provided
+	 * 
+	 * @param part a SmileyFacePart to be computed for coordinates
+	 */
 	private void computeUpperLeft(SmileyFacePart part)	{
 	
 		upperLeftX = part.getCenterX() - (int) (part.getXLength()/2);
