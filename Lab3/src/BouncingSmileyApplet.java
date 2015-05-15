@@ -56,6 +56,7 @@ public class BouncingSmileyApplet extends Applet
 		private Rectangle wallShape;
 		private Color wallColor;
 		private int wallEdge;
+		private WallName wallName;
 
 		/*
 		 * Class constructor.
@@ -68,20 +69,21 @@ public class BouncingSmileyApplet extends Applet
 		public Wall(WallName position, Color c)
 		{
 			wallColor = c;
+			wallName = position;
 			
-			if (position == WallName.RIGHT) {
+			if (wallName == WallName.RIGHT) {
 				wallShape = new Rectangle(rightWallPt, rightWallDim);
 				wallEdge = (int) (rightWallPt.getX());
 			}
-			else if (position == WallName.LEFT) {
+			else if (wallName == WallName.LEFT) {
 				wallShape = new Rectangle(leftWallPt, leftWallDim);
 				wallEdge = (int) (leftWallPt.getX() + leftWallDim.getWidth());
 			}
-			else if (position == WallName.BOTTOM) {
+			else if (wallName == WallName.BOTTOM) {
 				wallShape = new Rectangle(bottomWallPt, bottomWallDim);
 				wallEdge = (int) (bottomWallPt.getY());
 			}
-			else if (position == WallName.TOP) {
+			else if (wallName == WallName.TOP) {
 				wallShape = new Rectangle(topWallPt, topWallDim);
 				wallEdge = (int) (topWallPt.getY() + topWallDim.getHeight());
 			}
@@ -134,7 +136,7 @@ public class BouncingSmileyApplet extends Applet
 					moveCntSmiley(smiley2);
 					moveCntSmiley(smiley3);
 					repaint();
-					pause(50);
+					pause(75);
 				}
 			}
 		}
