@@ -1,0 +1,24 @@
+Description of Program: The program will be the same as lab two except we are programming the Frame/Display as well as creating an applet for the bouncing Smileys.
+
+Contributions: Both of us pair programmed the whole project with each other, switching on and off about every 15 minutes or so. Below are some of the methods each of us implemented while doing the typing. As for the applet, we reused most of the code from the other modules we made.
+
+Jenny: 
+Declared constants for bouncing display
+Completed Wall constructor
+Paint component
+Get and Set Wall color
+Draw Part
+Draw Smiley
+Computer Upper Left
+Stephen: 
+Get wall edge
+Bouncing Frame contructor
+Activate animation
+Decided to use Point and Dimension objects for wall construction
+Completed BouncingFrame.java
+Created JavaDoc
+
+	
+We both read and agree with the content of this file.
+Stephen Em
+Jenny Tang
