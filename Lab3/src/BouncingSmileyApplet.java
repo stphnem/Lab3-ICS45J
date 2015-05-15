@@ -115,7 +115,6 @@ public class BouncingSmileyApplet extends Applet
 		smiley3 = bouncingGroup.getSmiley3();
 		
 		animate();
-		
 	}
 	
 	/*
@@ -135,7 +134,7 @@ public class BouncingSmileyApplet extends Applet
 					moveCntSmiley(smiley2);
 					moveCntSmiley(smiley3);
 					repaint();
-					pause(10);
+					pause(50);
 				}
 			}
 		}
